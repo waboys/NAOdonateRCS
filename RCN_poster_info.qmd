@@ -1,0 +1,79 @@
+---
+title: "Odonate RCS North America"
+author: "Wade Boys"
+format: html
+editor: visual
+bibliography: references.bib
+---
+
+## RCS Index
+
+The recently developed Rarity and Climate Sensitivity (RCS) index developed by @mims2018 incorporates point occurrence data with climate data into a standardized metric of sensitivity, and facilitates direct comparisons between species.
+
+This index incorporates a species Area of Occurrence, for example, the area of occupied watersheds of a given species, with an estimate of climate sensitivity which reflects the variation in different climate variables within the area of occurrence for a species. These estimates are then scaled, and then averaged together to provide a relative estimate of the intrinsic climate sensitivity for each species.
+
+**Values closer to 1 translate to higher intrinsic sensitivity.**
+
+## Data
+
+### Occurrence and Climate data
+
+We obtained point occurrence data from three databases, OdonataCentral, a publicly available database which houses North American records, iNaturalist which is a global publicly available database, and CONABIO which primarily houses records located in Mexico.
+
+We removed island endemic species given their inherent differences in area of occurrence compared to species occurring within the mainland. We filtered point occurrences to exclude duplicate records (e.g. same latitude/longitudes), records with insufficient information (e.g., date), misgeoreferenced records and records with excessive geographic uncertainty using package *CoordinateCleaner* @zizka2019 in R.
+
+Synonyms and species classifications were harmonized with the most recent version of the ‘World Odonata List,’ a comprehensive checklist of accepted name authorities and taxonomic classifications. We included species with ≥ five (5) point occurrences in our analysis to capture as many species as possible, especially rare endemic species inherently at-risk to environmental change.
+
+We assigned aquatic habitat type based on the approach used in @abbott2022 by asking if a species can survive without running water. If yes, the species was assigned as "lentic" and otherwise as "lotic."
+
+To estimate climatic variability experienced by each species, we included 5 bioclim variables expected to have an impact on odonate biology, and took a temporal average of the standard variation of these variables across the years 1960-2021. Then, we overlaid occupied watersheds of a given species and extracted the overall variation in climate experienced by a species over 61 years.
+
+Occurrence records that occurred outside the 1960-2021 range were excluded from our analysis.
+
+### Conservation Status Data
+
+We gathered conservation status for each species from the IUCN Red List, US Endangered Species List, and US State Wildlife Action Plans.
+
+| Conservation Status List | Conservation Status | Number of Species (% of total species) |
+|------------------------|------------------------|------------------------|
+| IUCN Red List | Endangered | 3 (0.005%) |
+|  | Vulnerable | 6 (0.01%) |
+|  | Near Threatened | 7 (0.012%) |
+|  | Least Concern | 540 (0.95%) |
+|  | Data Deficient | 8 (0.014%) |
+| U.S. Endangered Species Act | Endangered | 1 (0.1%) |
+|  | Not Listed | 563 (99.9%) |
+| Species of Greatest Conservation Need | In ≥ 1 SWAP | 229 (0.41%) |
+|  | Not in SWAP | 335 (0.59%) |
+
+# Statistics
+
+### Aquatic habitat patterns of sensitivity
+
+We investigated differences in estimated intrinsic sensitivities between lentic and lotic species by comparing mean RCS values with a Kruskal-Wallis test (Kruskal and Wallis 1952). Given the amount of variation in our dataset, we considered p \< 0.1 as significant.
+
+We found that lotic dragonflies (Kruskal-Wallis H~1~ = 59.32, p \< 0.01; Fig. 1A), but not damselflies (Kruskal-Wallis H~1~ = 0.80617, p = 0.3693; Fig. 1B), have higher intrinsic sensitivities to climate than lentic species.
+
+### Taxonomic patterns of sensitivity
+
+We investigated taxonomic patterns in estimated intrinsic sensitivities by comparing mean RCS values between genera and family with a Kruskal-Wallis test (Kruskal and Wallis 1952). If significant, we then performed a Dunn’s test (Dunn 1964) using package *dunn.test* (Dinno 2017) to determine which taxa explained these differences.
+
+We found that RCS were not significantly different between damselfly families (Kruskal-Wallis H~7~=12, p = 0.1005; Fig. 2A) or genera (Kruskal-Wallis H~30~=38.693, p = 0.1327). For dragonflies, RCS values were significantly different across families (Kruskal-Wallis H~6~=99.1, p \< 0.01; Fig. 2B) and genera (Kruskal-Wallis H~74~=164.72, p \< 0.01). A Dunn’s test revealed that families Gomphidae and Corduliidae are more sensitive when compared to the family Libellulidae.
+
+# Conservation coverage
+
+### Dragonflies
+
+We found that 45% of North American lentic dragonflies were not listed by conservation framework. Of the 20 most sensitive species, 10 remain overlooked by conservation efforts.
+
+Similarly, we found 46% of North American lotic dragonflies were not listed by any framework, with 4 of the 20 most sensitive species remaining overlooked.
+
+### Damselflies
+
+We found that 43% of North American lentic damselflies were not listed by any framework, with 9 out of the 20 most sensitive species currently overlooked.
+
+We found that 80% of North American lotic damselflies were not listed by any framework, including 18 of the 20 most sensitive species!
+
+# Current/Future work
+
+We are currently working to estimate RCS values across different spatial scales to see if rankings change. We're also including other odonate trait data (i.e. thorax size, ornamentation, body color type, flight mode, etc.) to assess whether these traits provide redundant or complementary information about species sensitivity to climate change. Additionally, we plan to incorporate RCS values into a comparative phylogenetic model to assess if RCS scores help predict extinction rate amongst odonates.
